@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Coming Soon | Etcetera Holidays',
     description: 'Etcetera Holidays is launching soon. Subscribe to be notified when we launch with exclusive deals.',
-    url: 'https://etcetera-holidays.com',
+    url: 'https://etceteraholidays.com',
     siteName: 'Etcetera Holidays',
     locale: 'en_US',
     type: 'website',

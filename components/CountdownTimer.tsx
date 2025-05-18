@@ -11,14 +11,9 @@ interface TimeLeft {
 }
 
 const CountdownTimer = () => {
-  // Set a fixed launch date 20 days from now
-  const calculateEndDate = (): Date => {
-    const endDate = new Date();
-    endDate.setDate(endDate.getDate() + 20);
-    return endDate;
-  };
-
-  const [endTime] = useState<Date>(calculateEndDate());
+  // Set a FIXED launch date (June 6, 2025 or whatever your actual launch date is)
+  const LAUNCH_DATE = new Date("2025-06-06T12:00:00Z").getTime();
+  
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({
     days: 0,
     hours: 0,
@@ -26,9 +21,9 @@ const CountdownTimer = () => {
     seconds: 0
   });
 
-  // Define calculateTimeLeft outside useEffect
+  // Calculate time left based on fixed launch date
   const calculateTimeLeft = (): TimeLeft => {
-    const difference = endTime.getTime() - new Date().getTime();
+    const difference = LAUNCH_DATE - new Date().getTime();
     
     if (difference <= 0) {
       // Timer expired
@@ -70,7 +65,7 @@ const CountdownTimer = () => {
       clearInterval(timer);
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [endTime]); // We're disabling the exhaustive-deps rule since we're intentionally leaving out calculateTimeLeft
+  }, []); // Only run this effect once on mount
 
   // Format time values to always show two digits
   const formatTime = (value: number): string => {
