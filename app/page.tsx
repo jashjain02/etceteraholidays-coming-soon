@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, FormEvent, ChangeEvent } from "react";
+import Image from "next/image";
 import { Plane, Facebook, Instagram, Twitter, Linkedin } from "lucide-react";
 import CountdownTimer from "@/components/CountdownTimer";
 import { Button } from "@/components/ui/button";
@@ -33,18 +34,21 @@ export default function Home() {
       {/* Subtle overlay */}
       <div className="absolute inset-0 bg-black/10 backdrop-blur-[2px] z-0"></div>
       
-      {/* Main container wrapper - Takes up full viewport */}
-      <div className="relative z-10 w-full h-full flex flex-col items-center justify-center px-4 py-8">
-        {/* Main transparent card - contains ALL content */}
-        <div className="max-w-6xl w-[95%] h-auto bg-white/10 backdrop-blur-lg rounded-2xl p-8 md:p-12 flex flex-col items-center justify-center text-center">
+      {/* Main container wrapper - Takes up full viewport with spacing */}
+      <div className="relative z-10 w-full h-full flex flex-col items-center justify-center px-4 py-12 md:py-16">
+        {/* Main transparent card - contains ALL content with reduced width */}
+        <div className="max-w-4xl w-[85%] sm:w-[80%] md:w-[75%] lg:w-[70%] h-auto my-8 md:my-12 bg-white/10 backdrop-blur-lg rounded-2xl p-8 md:p-12 flex flex-col items-center justify-center text-center">
           
           {/* Logo */}
           <div className="mb-6 mx-auto">
             <div className="relative w-[250px] sm:w-[320px] md:w-[400px] lg:w-[480px] h-[100px] sm:h-[128px] md:h-[160px] lg:h-[192px] mx-auto">
-              <img
+              <Image
                 src="/logo.png"
                 alt="Etcetera Holidays"
+                width={480}
+                height={192}
                 className="w-full h-full object-contain"
+                priority
               />
             </div>
           </div>
@@ -113,7 +117,7 @@ export default function Home() {
 
           {/* Footer */}
           <footer className="mt-auto text-xs text-white/80">
-            <p>© {new Date().getFullYear()} Etcetera Holidays. All rights reserved.</p>
+            <p>© 2023 Etcetera Holidays. All rights reserved.</p>
           </footer>
         </div>
       </div>
