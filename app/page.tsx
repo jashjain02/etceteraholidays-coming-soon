@@ -43,7 +43,7 @@ export default function Home() {
           <div className="mb-6 mx-auto">
             <div className="relative w-[250px] sm:w-[320px] md:w-[400px] lg:w-[480px] h-[100px] sm:h-[128px] md:h-[160px] lg:h-[192px] mx-auto">
               <Image
-                src="/logo.png"
+                src="./logo.png"
                 alt="Etcetera Holidays"
                 width={480}
                 height={192}
