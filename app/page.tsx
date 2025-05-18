@@ -1,9 +1,7 @@
 "use client";
 
 import { useState, useEffect, FormEvent, ChangeEvent } from "react";
-import Image from "next/image";
-import { Plane } from "lucide-react";
-import { Facebook, Instagram, Twitter, Linkedin } from "lucide-react";
+import { Plane, Facebook, Instagram, Twitter, Linkedin } from "lucide-react";
 import CountdownTimer from "@/components/CountdownTimer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -31,32 +29,33 @@ export default function Home() {
 
   return (
     <main className="h-screen flex items-center justify-center relative overflow-hidden">
-      {/* Added a very subtle transparent overlay */}
+      {/* Background image is handled in globals.css */}
+      {/* Subtle overlay */}
       <div className="absolute inset-0 bg-black/10 backdrop-blur-[2px] z-0"></div>
       
-      <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4">
-        {/* Main container - Increased height to 90vh */}
-        <div className="max-w-6xl w-full h-[90vh] flex flex-col justify-center items-center bg-white/10 backdrop-blur-lg rounded-2xl p-8 md:p-12 text-center">
-          {/* Logo - Increased size with reduced bottom margin */}
-          <div className="mb-2 mx-auto">
-  <div className="relative w-[250px] sm:w-[320px] md:w-[400px] lg:w-[480px] h-[100px] sm:h-[128px] md:h-[160px] lg:h-[192px] mx-auto">
-    <Image
-      src="/logo.png"
-      alt="Etcetera Holidays"
-      fill
-      style={{ objectFit: "contain" }}
-      priority
-    />
-  </div>
-</div>
+      {/* Main container wrapper - Takes up full viewport */}
+      <div className="relative z-10 w-full h-full flex flex-col items-center justify-center px-4 py-8">
+        {/* Main transparent card - contains ALL content */}
+        <div className="max-w-6xl w-[95%] h-auto bg-white/10 backdrop-blur-lg rounded-2xl p-8 md:p-12 flex flex-col items-center justify-center text-center">
+          
+          {/* Logo */}
+          <div className="mb-6 mx-auto">
+            <div className="relative w-[250px] sm:w-[320px] md:w-[400px] lg:w-[480px] h-[100px] sm:h-[128px] md:h-[160px] lg:h-[192px] mx-auto">
+              <img
+                src="/logo.png"
+                alt="Etcetera Holidays"
+                className="w-full h-full object-contain"
+              />
+            </div>
+          </div>
 
-          {/* Countdown Timer - using the component with more width */}
-          <div className="w-full max-w-2xl mx-auto mb-8">
+          {/* Countdown Timer */}
+          <div className="w-full max-w-2xl mx-auto mb-12">
             <CountdownTimer />
           </div>
 
-          {/* Email signup - removed white background */}
-          <div className="w-full max-w-md mx-auto mb-8">
+          {/* Email signup */}
+          <div className="w-full max-w-md mx-auto mb-12">
             <div className="bg-white/20 backdrop-blur-md rounded-lg p-6 shadow-lg border border-white/30">
               <h3 className="text-lg font-semibold mb-2 text-white">
                 Be the first to know when we launch
@@ -82,7 +81,7 @@ export default function Home() {
           </div>
 
           {/* Social Media Links */}
-          <div className="w-full max-w-md mx-auto mb-4">
+          <div className="w-full max-w-md mx-auto mb-8">
             <div className="bg-white/10 backdrop-blur-md rounded-lg p-5 shadow-lg border border-white/30">
               <p className="text-sm text-white mb-4">
                 Connect with us on social media
@@ -113,8 +112,8 @@ export default function Home() {
           </div>
 
           {/* Footer */}
-          <footer className="mt-4 text-xs text-white/80">
-            <p>© 2023 Etcetera Holidays. All rights reserved.</p>
+          <footer className="mt-auto text-xs text-white/80">
+            <p>© {new Date().getFullYear()} Etcetera Holidays. All rights reserved.</p>
           </footer>
         </div>
       </div>
