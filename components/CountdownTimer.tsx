@@ -26,29 +26,29 @@ const CountdownTimer = () => {
     seconds: 0
   });
 
-  useEffect(() => {
-    // Function to calculate time left
-    const calculateTimeLeft = (): TimeLeft => {
-      const difference = endTime.getTime() - new Date().getTime();
-      
-      if (difference <= 0) {
-        // Timer expired
-        return {
-          days: 0,
-          hours: 0,
-          minutes: 0,
-          seconds: 0
-        };
-      }
-      
+  // Define calculateTimeLeft outside useEffect
+  const calculateTimeLeft = (): TimeLeft => {
+    const difference = endTime.getTime() - new Date().getTime();
+    
+    if (difference <= 0) {
+      // Timer expired
       return {
-        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-        minutes: Math.floor((difference / 1000 / 60) % 60),
-        seconds: Math.floor((difference / 1000) % 60)
+        days: 0,
+        hours: 0,
+        minutes: 0,
+        seconds: 0
       };
+    }
+    
+    return {
+      days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+      hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+      minutes: Math.floor((difference / 1000 / 60) % 60),
+      seconds: Math.floor((difference / 1000) % 60)
     };
+  };
 
+  useEffect(() => {
     // Set initial time
     setTimeLeft(calculateTimeLeft());
     
@@ -69,7 +69,8 @@ const CountdownTimer = () => {
     return () => {
       clearInterval(timer);
     };
-  }, [endTime]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [endTime]); // We're disabling the exhaustive-deps rule since we're intentionally leaving out calculateTimeLeft
 
   // Format time values to always show two digits
   const formatTime = (value: number): string => {
@@ -86,7 +87,7 @@ const CountdownTimer = () => {
   return (
     <div className="text-center">
       <h2 className="text-xl md:text-2xl font-medium mb-5 text-white">
-        We're Launching In
+        We&apos;re Launching In
       </h2>
       <div className="flex justify-center gap-3 md:gap-6">
         {timeUnits.map((unit, index) => (
