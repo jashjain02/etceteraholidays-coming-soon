@@ -1,71 +1,58 @@
-// components/CountdownTimer.tsx
 "use client";
 
 import { useState, useEffect } from "react";
 
-interface TimeLeft {
-  days: number;
-  hours: number;
-  minutes: number;
-  seconds: number;
-}
-
 const CountdownTimer = () => {
-  // Set a FIXED launch date (June 6, 2025 or whatever your actual launch date is)
+  // Set a fixed launch date
   const LAUNCH_DATE = new Date("2025-06-06T12:00:00Z").getTime();
   
-  const [timeLeft, setTimeLeft] = useState<TimeLeft>({
+  // Always start with zeros to match server
+  const [timeLeft, setTimeLeft] = useState({
     days: 0,
     hours: 0,
     minutes: 0,
     seconds: 0
   });
-
-  // Calculate time left based on fixed launch date
-  const calculateTimeLeft = (): TimeLeft => {
-    const difference = LAUNCH_DATE - new Date().getTime();
-    
-    if (difference <= 0) {
-      // Timer expired
-      return {
-        days: 0,
-        hours: 0,
-        minutes: 0,
-        seconds: 0
-      };
-    }
-    
-    return {
-      days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-      hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-      minutes: Math.floor((difference / 1000 / 60) % 60),
-      seconds: Math.floor((difference / 1000) % 60)
-    };
-  };
+  
+  // Use mounted state to control when to start showing real data
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    // Mark component as mounted
+    setMounted(true);
+    
+    // Calculate time left based on fixed launch date
+    const calculateTimeLeft = () => {
+      const difference = LAUNCH_DATE - new Date().getTime();
+      
+      if (difference <= 0) {
+        return {
+          days: 0,
+          hours: 0,
+          minutes: 0,
+          seconds: 0
+        };
+      }
+      
+      return {
+        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((difference / 1000 / 60) % 60),
+        seconds: Math.floor((difference / 1000) % 60)
+      };
+    };
+
     // Set initial time
     setTimeLeft(calculateTimeLeft());
     
     // Set up the interval
     const timer = setInterval(() => {
-      const updatedTimeLeft = calculateTimeLeft();
-      setTimeLeft(updatedTimeLeft);
-      
-      if (updatedTimeLeft.days === 0 && 
-          updatedTimeLeft.hours === 0 && 
-          updatedTimeLeft.minutes === 0 && 
-          updatedTimeLeft.seconds === 0) {
-        clearInterval(timer);
-      }
+      setTimeLeft(calculateTimeLeft());
     }, 1000);
 
     // Clean up on unmount
-    return () => {
-      clearInterval(timer);
-    };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // Only run this effect once on mount
+    return () => clearInterval(timer);
+  }, []);
 
   // Format time values to always show two digits
   const formatTime = (value: number): string => {
@@ -73,10 +60,10 @@ const CountdownTimer = () => {
   };
 
   const timeUnits = [
-    { label: "Days", value: formatTime(timeLeft.days) },
-    { label: "Hours", value: formatTime(timeLeft.hours) },
-    { label: "Minutes", value: formatTime(timeLeft.minutes) },
-    { label: "Seconds", value: formatTime(timeLeft.seconds) },
+    { label: "Days", value: formatTime(mounted ? timeLeft.days : 0) },
+    { label: "Hours", value: formatTime(mounted ? timeLeft.hours : 0) },
+    { label: "Minutes", value: formatTime(mounted ? timeLeft.minutes : 0) },
+    { label: "Seconds", value: formatTime(mounted ? timeLeft.seconds : 0) },
   ];
 
   return (
@@ -90,7 +77,7 @@ const CountdownTimer = () => {
             key={unit.label} 
             className="relative group"
           >
-            <div className="w-20 md:w-28 lg:w-32 h-20 md:h-28 lg:h-32 bg-gradient-to-br from-teal-400 to-emerald-600 rounded-lg shadow-lg flex flex-col items-center justify-center transform transition-all duration-300 ease-in-out hover:scale-105">
+            <div className="w-20 md:w-28 lg:w-32 h-20 md:h-28 lg:h-32 bg-gradient-to-br from-teal-400 to-emerald-600 rounded-lg shadow-lg flex flex-col items-center justify-center">
               <div className="absolute inset-0.5 bg-white dark:bg-gray-800 rounded-[0.3rem] flex flex-col items-center justify-center">
                 <span className="text-2xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-teal-500 to-blue-600 text-transparent bg-clip-text">
                   {unit.value}
